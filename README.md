@@ -15,44 +15,56 @@ This project implements an **Agentic Multi-Hop RAG (Retrieval-Augmented Generati
 
 ```mermaid
 graph TD
-    A["User Question"] --> B["Subquestion Decomposition (LLM)"]
+    %% Ingestion Pipeline
+    A1[PDF Upload] --> A2[Parse and Split Pages]
+    A2 --> A3[Generate Embeddings using Ollama]
+    A2 --> A4[Build BM25 Index]
+    A3 --> A5[Store in FAISS Vector DB]
+    A4 --> A6[BM25 Retriever]
+    A5 --> A7[FAISS Retriever]
+    A6 --> A8[Hybrid Retriever]
+    A7 --> A8
 
-    B --> C1["SubQ1"]
-    B --> C2["SubQ2"]
-    B --> C3["SubQn"]
+    %% Question Handling
+    A8 --> B1[User Question]
+    B1 --> B2[Decompose into Sub-Questions]
 
-    %% SubQ1 Path
-    C1 --> D1["Local Retrieval (FAISS + BM25)"]
-    D1 --> R1["Doc Context 1"]
-    C1 -->|If Needed| W1["Tavily Web Search"]
-    W1 --> T1["Web Result 1"]
-    R1 --> M1["Merged Context 1"]
-    T1 --> M1
-    M1 --> S1["SubAnswer 1"]
+    %% Sub-Question 1
+    B2 --> C1[SubQ1]
+    C1 --> D1[Retrieve Local Docs FAISS and BM25]
+    D1 --> E1[Local Context 1]
+    C1 -->|If Needed| F1[Web Search via Tavily]
+    F1 --> G1[Web Context 1]
+    E1 --> H1[Merge Contexts for SubQ1]
+    G1 --> H1
+    H1 --> I1[Generate Answer for SubQ1]
 
-    %% SubQ2 Path
-    C2 --> D2["Local Retrieval (FAISS + BM25)"]
-    D2 --> R2["Doc Context 2"]
-    C2 -->|If Needed| W2["Tavily Web Search"]
-    W2 --> T2["Web Result 2"]
-    R2 --> M2["Merged Context 2"]
-    T2 --> M2
-    M2 --> S2["SubAnswer 2"]
+    %% Sub-Question 2
+    B2 --> C2[SubQ2]
+    C2 --> D2[Retrieve Local Docs]
+    D2 --> E2[Local Context 2]
+    C2 -->|If Needed| F2[Web Search]
+    F2 --> G2[Web Context 2]
+    E2 --> H2[Merge Contexts for SubQ2]
+    G2 --> H2
+    H2 --> I2[Generate Answer for SubQ2]
 
-    %% SubQn Path
-    C3 --> D3["Local Retrieval (FAISS + BM25)"]
-    D3 --> R3["Doc Context 3"]
-    C3 -->|If Needed| W3["Tavily Web Search"]
-    W3 --> T3["Web Result 3"]
-    R3 --> M3["Merged Context 3"]
-    T3 --> M3
-    M3 --> S3["SubAnswer 3"]
+    %% Sub-Question N
+    B2 --> C3[SubQn]
+    C3 --> D3[Retrieve Local Docs]
+    D3 --> E3[Local Context 3]
+    C3 -->|If Needed| F3[Web Search]
+    F3 --> G3[Web Context 3]
+    E3 --> H3[Merge Contexts for SubQn]
+    G3 --> H3
+    H3 --> I3[Generate Answer for SubQn]
 
     %% Final Synthesis
-    S1 --> F["Final Synthesizer"]
-    S2 --> F
-    S3 --> F
-    F --> Z["Final Answer"]
+    I1 --> Z1[Synthesize Final Answer]
+    I2 --> Z1
+    I3 --> Z1
+    Z1 --> Z2[Final Answer to User]
+
 ```
 
 
