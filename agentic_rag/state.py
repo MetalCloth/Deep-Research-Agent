@@ -13,7 +13,7 @@ class AgentState(TypedDict):
     rag_summary: Optional[str]
     tavily_results: Optional[str]
     final_answer: str
-    decision_path: str # NEW: To store the decision ("use_tavily" or "summarize_rag_only")
+    decision_path: str 
 
 
     
