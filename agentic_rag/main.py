@@ -254,7 +254,7 @@ def build_multi_source_rag_graph():
 
 app = build_multi_source_rag_graph()
 
-st.title('📚 Hybrid RAG (Decompose + Internal + Optional Web Search) 🌐')
+st.title('Deep Research Agent')
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
