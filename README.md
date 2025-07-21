@@ -5,7 +5,7 @@ This project implements an **Agentic Multi-Hop RAG (Retrieval-Augmented Generati
 - 🧠 **LangGraph** for multi-agent orchestration
 - 📄 **Hybrid Retrieval** via FAISS (Ollama embeddings) + BM25
 - 🌐 **Tavily Web Search** (conditionally used)
-- 🤖 **Claude 3.5 Haiku** (via Anthropic) as the main LLM
+- 🤖 **Claude 3.5 Haiku** (via Anthropic) as the main LLM or can use **GROQ Agents**
 - 📚 **SemanticChunker** + PDF loader + Metadata tracking
 - 🧪 **LangChain Expression Language** for modularity
 
@@ -122,5 +122,5 @@ Final synthesized answer is returned after merging relevant document + web searc
 
 ## 🤖 Credits
 
-Made with ❤️ by [Puneet Rawat] using LangGraph + Claude + Tavily + LangChain + FAISS magic.
+Made with ❤️ by [Puneet Rawat] using LangGraph + Claude/Groq + Tavily + LangChain + FAISS magic.
 
