@@ -62,7 +62,7 @@ def build_hybrid_retriever(faiss_path=FAISS_PATH, bm25_path=BM25_PATH):
             with open(bm25_path, "rb") as f:
                 bm25 = pickle.load(f)
 
-        st.success("✅ Document retrievers loaded from memory.")
+        st.success("  Document retrievers loaded from memory.")
 
     except Exception as e:
         st.warning(f"INGESTION ERROR-> {e}")
@@ -160,7 +160,6 @@ def decide_next_step(state: AgentState) -> AgentState:
         state['decision_path'] = "use_tavily"
     else:
         state['decision_path'] = "summarize_rag_only"
-        st.info("👌 RAG answer appears sufficient. Storing decision to proceed to final combination.")
     
     return state
 
@@ -287,7 +286,7 @@ if user_question:
                 st.markdown(final_answer)
 
             except Exception as e:
-                st.error(f"🚨 An unexpected error occurred: {e}")
+                st.error(f"  An unexpected error occurred: {e}")
                 st.exception(e)
                 final_answer = "An unexpected error occurred while processing your request. Please try again."
 
