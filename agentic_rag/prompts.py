@@ -21,7 +21,6 @@ Answer:
 """
 
 ### FINAL SUMMARIZER
-# In prompts.py, for final_summarizer:
 final_summarizer = """
 You are an expert report writer, tasked with synthesizing information into a comprehensive, clear, and impeccably structured report.
 Your job is to ONLY use the provided documents — never hallucinate, guess, or use imaginary sources.
