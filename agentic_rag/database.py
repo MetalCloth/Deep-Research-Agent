@@ -30,9 +30,9 @@ keyword_text_splitter = RecursiveCharacterTextSplitter(
 
 # Session state initialization
 if "pdf_texts" not in st.session_state:
-    st.session_state.pdf_texts = {}  # filename -> full text
+    st.session_state.pdf_texts = {}  
 if "doc_store" not in st.session_state:
-    st.session_state.doc_store = []  # list of Document objects
+    st.session_state.doc_store = [] 
 
 # Function to process and store a PDF
 def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
@@ -92,4 +92,3 @@ def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
     st.success(f"📦 Saved FAISS: {vectorstore_path}")
     st.success(f"📦 Saved BM25: {bm25_path}")
 
-# UI: Sidebar for PDF uploads
