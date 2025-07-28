@@ -56,7 +56,7 @@ def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
         page_number += 1
 
     st.session_state.pdf_texts[pdf.name] = full_text
-    st.success(f"✅ Ingested '{pdf.name}' ({len(doc_pages)} pages)")
+    st.success(f" Ingested '{pdf.name}' ({len(doc_pages)} pages)")
 
     # Split and store
     with st.spinner(f"Splitting '{pdf.name}' into chunks..."):
@@ -87,8 +87,8 @@ def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
         bm25.k = 4
         with open(bm25_path, "wb") as f:
             pickle.dump(bm25, f)
-        st.success(f"📦 Saved BM25: {bm25_path}")
+        st.success(f" Saved BM25: {bm25_path}")
 
-    st.success(f"📦 Saved FAISS: {vectorstore_path}")
-    st.success(f"📦 Saved BM25: {bm25_path}")
+    st.success(f" Saved FAISS: {vectorstore_path}")
+    st.success(f" Saved BM25: {bm25_path}")
 
