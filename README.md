@@ -72,6 +72,13 @@ graph TD
 
 ---
 
+## Demo
+https://github.com/user-attachments/assets/1e07b283-ad23-4cf1-8a9e-10854ea513f0
+
+---
+
+
+
 ## 🧠 Key Features
 
 - 🔗 **LangGraph Multi-Agent Loop**: Pro/Con/Validator style agents
