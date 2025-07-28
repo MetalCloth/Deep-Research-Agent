@@ -286,9 +286,6 @@ if user_question:
                 final_answer = response['final_answer']
                 st.markdown(final_answer)
 
-            except RateLimitError:
-                st.error("🚨 Rate limit exceeded for API. Please wait a moment and try again.")
-                final_answer = "Apologies, I'm currently experiencing high demand. Please try again in a moment."
             except Exception as e:
                 st.error(f"🚨 An unexpected error occurred: {e}")
                 st.exception(e)
