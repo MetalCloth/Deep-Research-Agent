@@ -81,7 +81,6 @@ https://github.com/user-attachments/assets/1e07b283-ad23-4cf1-8a9e-10854ea513f0
 
 ## 🧠 Key Features
 
-- 🔗 **LangGraph Multi-Agent Loop**: Pro/Con/Validator style agents
 - 📘 **PDF Upload + Semantic Chunking** for intelligent context
 - 🔄 **Hybrid Retrieval**: FAISS for embeddings + BM25 for keyword match
 - 🌐 **Optional Web Search** using Tavily only when needed
