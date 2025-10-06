@@ -8,13 +8,16 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_ollama import OllamaEmbeddings
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import streamlit as st
 
 load_dotenv()
-os.environ['ANTHROPIC_API_KEY'] = os.getenv('ANTHROPIC_API_KEY')
 
-# Embeddings and chunkers
-embedding_model = OllamaEmbeddings(model='snowflake-arctic-embed')
+# --- Configuration ---
+FAISS_PATH = "vectorstore"
+BM25_PATH = "bm25.pkl"
+EMBEDDING_MODEL = "snowflake-arctic-embed"
+
+# --- Models and Splitters (Initialized once) ---
+embedding_model = OllamaEmbeddings(model=EMBEDDING_MODEL)
 
 semantic_text_splitter = SemanticChunker(
     embedding_model,
@@ -27,64 +30,60 @@ keyword_text_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=100
 )
 
-if "pdf_texts" not in st.session_state:
-    st.session_state.pdf_texts = {} 
-if "doc_store" not in st.session_state:
-    st.session_state.doc_store = []  
+def ingest(pdf_file_like_object):
+    """
+    Ingests a PDF, processes it, and updates the vector stores.
+    This function is UI-independent and returns a status dictionary.
+    
+    Args:
+        pdf_file_like_object: A file-like object (e.g., from FastAPI's UploadFile).
+                              It must have a '.name' attribute.
+    """
+    pdf_name = getattr(pdf_file_like_object, 'name', 'unknown.pdf')
+    print(f"--- Starting ingestion for: {pdf_name} ---")
 
-
-def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
-    if pdf.name in st.session_state.pdf_texts:
-        return
-
-    reader = PdfReader(pdf)
-    full_text = ""
-    page_number = 1
+    reader = PdfReader(pdf_file_like_object)
     doc_pages = []
-
-    for page in reader.pages:
+    for page_num, page in enumerate(reader.pages):
         content = page.extract_text() or ""
-        full_text += content
         doc = Document(
             page_content=content,
-            metadata={"source": pdf.name, "page": page_number}
+            metadata={"source": pdf_name, "page": page_num + 1}
         )
-        st.session_state.doc_store.append(doc)
         doc_pages.append(doc)
-        page_number += 1
 
-    st.session_state.pdf_texts[pdf.name] = full_text
-    st.success(f"Ingested '{pdf.name}' ({len(doc_pages)} pages)")
+    print(f"Ingested {len(doc_pages)} pages from {pdf_name}.")
 
-    with st.spinner(f"Splitting '{pdf.name}' into chunks..."):
-        
-        semantic_chunks = semantic_text_splitter.split_documents(doc_pages)
-        keyword_chunks = keyword_text_splitter.split_documents(doc_pages)
+    # --- Chunking ---
+    print("Splitting documents into chunks...")
+    semantic_chunks = semantic_text_splitter.split_documents(doc_pages)
+    keyword_chunks = keyword_text_splitter.split_documents(doc_pages)
+    print(f"Created {len(semantic_chunks)} semantic and {len(keyword_chunks)} keyword chunks.")
 
-    with st.spinner("Saving vectorstore and BM25..."):
-        embeddings = OllamaEmbeddings(model="snowflake-arctic-embed:latest")
+    # --- Vector Store Processing ---
+    print("Updating FAISS vector store...")
+    if os.path.exists(FAISS_PATH):
+        faiss_store = FAISS.load_local(FAISS_PATH, embedding_model, allow_dangerous_deserialization=True)
+        faiss_store.add_documents(semantic_chunks)
+    else:
+        faiss_store = FAISS.from_documents(semantic_chunks, embedding_model)
+    faiss_store.save_local(FAISS_PATH)
+    print(f"FAISS vector store saved to '{FAISS_PATH}'.")
 
-        if os.path.exists(vectorstore_path):
-            faiss_store = FAISS.load_local(vectorstore_path, embeddings,allow_dangerous_deserialization=True)
-            faiss_store.add_documents(semantic_chunks)
-        else:
-            faiss_store = FAISS.from_documents(semantic_chunks, embeddings)
-
-        faiss_store.save_local(vectorstore_path)
-
-        if os.path.exists(bm25_path):
-            with open(bm25_path, "rb") as f:
-                bm25 = pickle.load(f)
-                final_docs = bm25.docs+keyword_chunks
-        else:
-            final_docs = keyword_chunks
-
-        bm25 = BM25Retriever.from_documents(final_docs)
-        bm25.k = 4
-
-        with open(bm25_path, "wb") as f:
-            pickle.dump(bm25, f)
-
-    st.success(f" Saved FAISS: {vectorstore_path}")
-    st.success(f" Saved BM25: {bm25_path}")
-
+    # --- BM25 Retriever Processing ---
+    print("Updating BM25 retriever...")
+    all_keyword_docs = keyword_chunks
+    if os.path.exists(BM25_PATH):
+        with open(BM25_PATH, "rb") as f:
+            existing_bm25 = pickle.load(f)
+            all_keyword_docs.extend(existing_bm25.docs)
+    
+    bm25 = BM25Retriever.from_documents(all_keyword_docs)
+    bm25.k = 4
+    with open(BM25_PATH, "wb") as f:
+        pickle.dump(bm25, f)
+    print(f"BM25 retriever saved to '{BM25_PATH}'.")
+    
+    # --- Return Status ---
+    print(f"--- Finished ingestion for: {pdf_name} ---")
+    return {"filename": pdf_name, "pages": len(doc_pages), "status": "success"}

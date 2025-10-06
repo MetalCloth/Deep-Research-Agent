@@ -9,6 +9,7 @@ streamlit
 python-dotenv
 smolagents
 requests
+
 pypdf
 
 bs4
