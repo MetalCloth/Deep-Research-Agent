@@ -1,4 +1,7 @@
-from typing import TypedDict,List,Annotated,Optional
+from typing import TypedDict,List,Annotated,Optional,Sequence
+from langchain_core.messages import BaseMessage
+from langgraph.graph.message import add_messages
+
 
 class SubQuestionAnswer(TypedDict):
     sub_question:str
@@ -7,13 +10,14 @@ class SubQuestionAnswer(TypedDict):
 
 
 class AgentState(TypedDict):
+    messages:Annotated[Sequence[BaseMessage],add_messages]
     question: str
     subquestion: List[str]
     rag_sub_answers: List[SubQuestionAnswer]
     rag_summary: Optional[str]
     tavily_results: Optional[str]
     final_answer: str
-    decision_path: str # NEW: To store the decision ("use_tavily" or "summarize_rag_only")
+    decision_path: str 
 
 
     

@@ -10,7 +10,6 @@ from langchain_experimental.text_splitter import SemanticChunker
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import streamlit as st
 
-# Load environment variables
 load_dotenv()
 os.environ['ANTHROPIC_API_KEY'] = os.getenv('ANTHROPIC_API_KEY')
 
@@ -28,13 +27,12 @@ keyword_text_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=100
 )
 
-# Session state initialization
 if "pdf_texts" not in st.session_state:
-    st.session_state.pdf_texts = {}  # filename -> full text
+    st.session_state.pdf_texts = {} 
 if "doc_store" not in st.session_state:
-    st.session_state.doc_store = []  # list of Document objects
+    st.session_state.doc_store = []  
 
-# Function to process and store a PDF
+
 def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
     if pdf.name in st.session_state.pdf_texts:
         return
@@ -56,9 +54,8 @@ def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
         page_number += 1
 
     st.session_state.pdf_texts[pdf.name] = full_text
-    st.success(f"✅ Ingested '{pdf.name}' ({len(doc_pages)} pages)")
+    st.success(f"Ingested '{pdf.name}' ({len(doc_pages)} pages)")
 
-    # Split and store
     with st.spinner(f"Splitting '{pdf.name}' into chunks..."):
         
         semantic_chunks = semantic_text_splitter.split_documents(doc_pages)
@@ -78,18 +75,16 @@ def ingest(pdf,vectorstore_path: str = "vectorstore",bm25_path:str="bm25.pkl"):
         if os.path.exists(bm25_path):
             with open(bm25_path, "rb") as f:
                 bm25 = pickle.load(f)
-                bm25.add_documents(keyword_chunks)
+                final_docs = bm25.docs+keyword_chunks
         else:
-            bm25 = BM25Retriever.from_documents(keyword_chunks)
+            final_docs = keyword_chunks
 
-
-
+        bm25 = BM25Retriever.from_documents(final_docs)
         bm25.k = 4
+
         with open(bm25_path, "wb") as f:
             pickle.dump(bm25, f)
-        st.success(f"📦 Saved BM25: {bm25_path}")
 
-    st.success(f"📦 Saved FAISS: {vectorstore_path}")
-    st.success(f"📦 Saved BM25: {bm25_path}")
+    st.success(f" Saved FAISS: {vectorstore_path}")
+    st.success(f" Saved BM25: {bm25_path}")
 
-# UI: Sidebar for PDF uploads
