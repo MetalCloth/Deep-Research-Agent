@@ -189,7 +189,7 @@ def combine_all_answers(state: AgentState) -> AgentState:
         )
 
 
-        st.write("chat_history",state['messages'])
+        # st.write("chat_history",state['messages'])
 
 
     
@@ -223,7 +223,7 @@ def combine_all_answers(state: AgentState) -> AgentState:
 
             state['messages'].append(AIMessage(content=final_answer))
             
-            st.write("STATE MESSAGES",state['messages'])
+            # st.write("STATE MESSAGES",state['messages'])
             st.success("REPORT GENERATED")
             return state
         except Exception as e:
@@ -293,7 +293,6 @@ if user_question:
         with st.chat_message("assistant"):
             with st.spinner("Processing your question..."):
                 try:
-                    # Define the config dictionary right before invoking
                     config = {
                         "configurable": {
                             "thread_id": st.session_state.thread_id,
