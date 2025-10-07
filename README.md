@@ -7,6 +7,9 @@ A **sexy, scalable Retrieval-Augmented Generation (RAG) powerhouse** built for d
 **Live Demo**: [https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net](https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net)  
 *(Upload a PDF, ask away—watch the magic unfold with cited sources!)*
 
+<video src="https://github.com/user-attachments/assets/4b77e912-c908-46b5-bb97-f07e52b915ee" >
+
+
 ## ✨ Features
 - **📄 Ingestion Beast**: Multi-PDF upload, PyPDF2 extraction, semantic/recursive chunking (~500 chars), HuggingFace embeddings → FAISS + BM25 storage.
 - **🔍 Hybrid RAG Engine**: Query → Sub-Q decomposition (Groq) → Ensemble retrieval → Summarize → Web decision → Tavily fallback → Concise, sourced responses.
@@ -113,4 +116,5 @@ Docs/Tests: Full README, pytest (unit/integration), streamlit
 
 
 Built with ❤️ for deep research.
+
 
