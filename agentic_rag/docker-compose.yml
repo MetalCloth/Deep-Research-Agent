@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: "myragappregistry33598.azurecr.io/agentic_rag_frontend:latest"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+  backend:
+    image: "myragappregistry33598.azurecr.io/agentic_rag_backend:latest"
+    environment:
+      - DUMMY_VAR=placeholder  
+

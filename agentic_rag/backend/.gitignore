@@ -1,0 +1,9 @@
+# .dockerignore for backend
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local vectorstore or databases
+vectorstore/
+*.pkl
