@@ -1,13 +1,13 @@
 # 🚀 Deep Research Agent: Advanced RAG Pipeline
 
-
-
-A **sexy, scalable Retrieval-Augmented Generation (RAG) powerhouse** built for deep dives into your docs. Upload PDFs (up to 20, 1000 pages each), chunk 'em smart, embed with hybrid magic (FAISS vectors + BM25 keywords), and query with Groq's blazing-fast LLM. Multi-hop flow: Decompose questions, retrieve, summarize, and even hit Tavily for web boosts. Backend: FastAPI API. Frontend: Sleek Streamlit UI. All containerized—local or cloud-ready (Azure demo live!).
+A **scalable Retrieval-Augmented Generation (RAG) powerhouse** built for deep dives into your docs. Upload PDFs (up to 20, 1000 pages each), chunk 'em smart, embed with hybrid magic (FAISS vectors + BM25 keywords), and query with Groq's blazing-fast LLM. Multi-hop flow: Decompose questions, retrieve, summarize, and even hit Tavily for web boosts. Backend: FastAPI API. Frontend: Sleek Streamlit UI. All containerized—local or cloud-ready (Azure demo live!).
 
 **Live Demo**: [https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net](https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net)  
 *(Upload a PDF, ask away—watch the magic unfold with cited sources!)*
 
-<video src="https://github.com/user-attachments/assets/4b77e912-c908-46b5-bb97-f07e52b915ee" >
+<video src="https://github.com/user-attachments/assets/4b77e912-c908-46b5-bb97-f07e52b915ee" width="720" height="480" controls>
+  Your browser does not support the video tag. [Download here](https://github.com/user-attachments/assets/4b77e912-c908-46b5-bb97-f07e52b915ee).
+</video>
 
 
 ## ✨ Features
@@ -116,5 +116,6 @@ Docs/Tests: Full README, pytest (unit/integration), streamlit
 
 
 Built with ❤️ for deep research.
+
 
 
