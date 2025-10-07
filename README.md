@@ -44,6 +44,28 @@ cd Deep-Research-Agent
 cp .env.example .env
 ```
 
+## 🐳 Docker Setup: Containerized Magic
+
+Your RAG pipeline is fully Dockerized for seamless local/cloud deploys. Multi-stage: Shared base image (deps/models) + layered backend (FastAPI) + frontend (Streamlit). Efficient builds (~5 mins), hot-reload dev volumes (local only).
+
+### Project Structure
+```bash
+agentic-rag-pipeline/
+├── base/                 # Shared base (Python + libs)
+│   ├── Dockerfile
+│   └── requirements.txt  # langchain, groq, faiss, etc.
+├── backend/              # FastAPI API
+│   ├── Dockerfile
+│   ├── ai.py             # Endpoints
+│   ├── main.py           # LangGraph RAG
+│   └── database.py       # Ingestion/FAISS/SQLite
+├── frontend/             # Streamlit UI
+│   ├── Dockerfile
+│   └── ui.py             # Upload/query UI
+├── docker-compose.yml    # Orchestrates all
+└── .env.example          # Keys template
+```
+
 Build & Run:
 ```bash
 docker-compose up --build
@@ -58,8 +80,10 @@ Cloud (Azure App Service—Demo Setup)
 
 ACR Push: Tag/push images (scripts in repo or manual):
 ```bash
-docker tag agentic_rag_backend myragappregistry33598.azurecr.io/agentic_rag_backend:latest
-docker push myragappregistry33598.azurecr.io/agentic_rag_backend:latest  # Repeat for frontend/base
+ACR_NAME="myragappregistry33598"
+docker tag agentic_rag_base $ACR_NAME.azurecr.io/agentic_rag_base:latest && docker push $ACR_NAME.azurecr.io/agentic_rag_base:latest
+docker tag agentic_rag_backend $ACR_NAME.azurecr.io/agentic_rag_backend:latest && docker push $ACR_NAME.azurecr.io/agentic_rag_backend:latest
+docker tag agentic_rag_frontend $ACR_NAME.azure
 ```
 
 Create App: Azure Portal > Web App > Linux > Docker Compose > Upload docker-compose.yml > Link ACR.
@@ -116,6 +140,7 @@ Docs/Tests: Full README, pytest (unit/integration), streamlit
 
 
 Built with ❤️ for deep research.
+
 
 
 
