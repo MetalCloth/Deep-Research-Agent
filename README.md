@@ -87,6 +87,14 @@ Env: Add OPENAI_API_KEY=sk-... to .env/settings.
 Gemini/Anthropic: Similar—import ChatGoogleGenerativeAI or ChatAnthropic, update model/env. Rebuild/push.
 REST Custom: Wrap in langchain_community.llms for any API.
 
+
+| Endpoint   | Method | Description                                                                 | Example |
+|------------|--------|-----------------------------------------------------------------------------|---------|
+| `/`        | **GET** | Health check.                                                               | `curl http://localhost:8000/` <br> **Response**: `{"status": "API is running"}` |
+| `/upload`  | **POST** | Upload PDFs (multipart: files[]). Returns processed metadata.               | `curl -X POST -F "files=@doc.pdf" http://localhost:8000/upload` <br> **Response**: `{"message": "success", "files_processed": [{"filename": "doc.pdf", "pages": 5, "status": "success"}]}` |
+| `/query`   | **POST** | Query RAG (JSON: {"question": "str"}). Returns answer/thread_id.            | `curl -X POST -H "Content-Type: application/json" -d '{"question": "What’s on page 3?"}' http://localhost:8000/query` <br> **Response**: `{"answer": "Summary with sources...", "thread_id": "uuid"}` |
+
+
 🏗️ Architecture & Best Practices
 
 Modularity: LangGraph for RAG flow (nodes: decompose/retrieve/summarize/decide/search/combine); concurrent sub-Qs (ThreadPoolExecutor).
@@ -105,3 +113,4 @@ Docs/Tests: Full README, pytest (unit/integration), streamlit
 
 
 Built with ❤️ for deep research.
+
