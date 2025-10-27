@@ -2,6 +2,10 @@
 
 A **scalable Retrieval-Augmented Generation (RAG) powerhouse** built for deep dives into your docs. Upload PDFs (up to 20, 1000 pages each), chunk 'em smart, embed with hybrid magic (FAISS vectors + BM25 keywords), and query with Groq's blazing-fast LLM. Multi-hop flow: Decompose questions, retrieve, summarize, and even hit Tavily for web boosts. Backend: FastAPI API. Frontend: Sleek Streamlit UI. All containerized—local or cloud-ready (Azure demo live!).
 
+**Structure**:[![](https://mermaid.ink/img/pako:eNptkltvozAQhf-K5SdWShC3EEKlldKQZp8qtYkUqaVCTpgmqGCzvvSG-O81EFdtUz9xPN85gzXT4D3LAcf4wEl9RJskpUif-f16M7_dPKDx-C-6tHLYs6pmArL_CoQsGP1zMYCXPbFo1pJwiRaM7hXnQCW6BckLeCZlq8mBFWo3dPmKzVdoy_gTcDFA3Vn0oVvXGirIjU0coLXajW-Qa_p_wT2De2e49wvuG9w_w_1f8MDgwRl-bdu2cQDNzXO3bu9MLKGqivDiHTJODhmh4kW_1hi23kAZ6X-XwaccLpJeLxs9kSKHjMKrzISEuj0ZlrqOvjdktHzrXStLT3FXUMhIWf78j96o9IQleS5OhiurBv7IeNVldD4BhO-PxnI1pJ7Uqlf_7pfXycMFHumFKnIcS65ghCvgFekkbjo4xfIIFaQ41p854U8pTmmrPTWhd4xVxsaZOhxx_EhKoZWqcyIhKYheourzVm9RDnzBFJU4jvw-A8cNfsXxxHftSRR6jhOEXhTo2huOx97Mnk6m7mzmRFEQBuE0aEf4ve_q2JHnRWHkBJEfzvyJP20_AKx86_g?type=png)](https://mermaid.live/edit#pako:eNptkltvozAQhf-K5SdWShC3EEKlldKQZp8qtYkUqaVCTpgmqGCzvvSG-O81EFdtUz9xPN85gzXT4D3LAcf4wEl9RJskpUif-f16M7_dPKDx-C-6tHLYs6pmArL_CoQsGP1zMYCXPbFo1pJwiRaM7hXnQCW6BckLeCZlq8mBFWo3dPmKzVdoy_gTcDFA3Vn0oVvXGirIjU0coLXajW-Qa_p_wT2De2e49wvuG9w_w_1f8MDgwRl-bdu2cQDNzXO3bu9MLKGqivDiHTJODhmh4kW_1hi23kAZ6X-XwaccLpJeLxs9kSKHjMKrzISEuj0ZlrqOvjdktHzrXStLT3FXUMhIWf78j96o9IQleS5OhiurBv7IeNVldD4BhO-PxnI1pJ7Uqlf_7pfXycMFHumFKnIcS65ghCvgFekkbjo4xfIIFaQ41p854U8pTmmrPTWhd4xVxsaZOhxx_EhKoZWqcyIhKYheourzVm9RDnzBFJU4jvw-A8cNfsXxxHftSRR6jhOEXhTo2huOx97Mnk6m7mzmRFEQBuE0aEf4ve_q2JHnRWHkBJEfzvyJP20_AKx86_g)
+
+
+
 **Live Demo**: [https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net](https://deeprag-e5cchchxbggxgzca.eastus-01.azurewebsites.net)  
 *(Upload a PDF, ask away—watch the magic unfold with cited sources!)*
 
@@ -140,6 +144,7 @@ Docs/Tests: Full README, pytest (unit/integration), streamlit
 
 
 Built with ❤️ for deep research.
+
 
 
 
